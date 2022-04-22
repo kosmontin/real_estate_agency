@@ -1,10 +1,17 @@
 from django.db import models
 from django.utils import timezone
 
+NEW_BUILDING_CHOICES = ((True, 'Да'), (False, 'Нет'), (None, 'Неизвестно'))
+
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+
+    new_building = models.BooleanField(
+        choices=NEW_BUILDING_CHOICES,
+        null=True, blank=True,
+        verbose_name='Новостройка')
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
