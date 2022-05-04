@@ -65,6 +65,10 @@ class Flat(models.Model):
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
+    class Meta:
+        verbose_name = 'Квартира'
+        verbose_name_plural = 'Квартиры'
+
 
 class Complaint(models.Model):
     user = models.ForeignKey(
@@ -78,3 +82,23 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f'{self.user}, {self.flat.town} {self.flat.address}'
+
+    class Meta:
+        verbose_name = 'Жалоба'
+        verbose_name_plural = 'Жалобы'
+
+
+class Owner(models.Model):
+    name = models.CharField(max_length=200, verbose_name='ФИО владельца')
+    phone = models.CharField(max_length=20, verbose_name='Номер владельца')
+    pure_phone = PhoneNumberField(
+        verbose_name='Нормализованный номер владельца')
+    flat = models.ManyToManyField(
+        Flat, related_name='owners', verbose_name='Квартиры в собственности')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Собственник'
+        verbose_name_plural = 'Собственники'
