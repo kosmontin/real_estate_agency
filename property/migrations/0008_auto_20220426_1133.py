@@ -6,7 +6,7 @@ from django.db import migrations
 
 def fill_normalized_phonenumbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
         if phonenumbers.is_valid_number(phone) \
                 and phonenumbers.is_possible_number(phone):
